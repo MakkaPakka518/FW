@@ -1,1 +1,50 @@
-1
+{
+  "title": "玛卡巴卡的模块",
+  "description": "教程和更新通知频道：t.me/MakkaPakkaOvO",
+  "icon": "https://raw.githubusercontent.com/MakkaPakka518/FW/refs/heads/main/widgets/tubiao/makka.png",
+  "widgets": [
+    {
+      "id": "guduo_hot_list_makka", 
+      "title": "骨朵热度指数榜", 
+      "description": "每日更新的CN剧集、动漫、综艺、电影全网热度排行", 
+      "requiredVersion": "0.0.1", 
+      "version": "1.0.1", 
+      "author": "𝙈𝙖𝙠𝙠𝙖𝙋𝙖𝙠𝙠𝙖", 
+      "url": "https://rex.fwd.ccwu.cc/js/gdrdbRex.js"
+    },
+    { 
+      "id": "super_ultime_media_hub_makka", 
+      "title": "𝙈𝙖𝙠𝙠𝙖𝙋𝙖𝙠𝙠𝙖·终极聚合", 
+      "description": "动漫、影剧、综艺、流行风向与平台分流一网打尽", 
+      "requiredVersion": "0.0.1", 
+      "version": "1.3.0", 
+      "author": "𝙈𝙖𝙠𝙠𝙖𝙋𝙖𝙠𝙠𝙖", 
+      "url": "https://rex.fwd.ccwu.cc/js/mkbkRex.js" 
+    },
+    { 
+      "id": "makkapakka_hub_list_2.0", 
+      "title": "平台剧场", 
+      "description": "各個平臺劇場和豆瓣熱榜", 
+      "requiredVersion": "0.0.1", 
+      "version": "1.0.9", 
+      "author": "𝙈𝙖𝙠𝙠𝙖𝙋𝙖𝙠𝙠𝙖", 
+      "url": "https://rex.fwd.ccwu.cc/js/ptjcRex.js" 
+    },
+    { 
+      "id": "western_trends_hub_temp", 
+      "title": "欧美风向标|口碑与热度", 
+      "description": "聚合烂番茄(口碑)与流媒体平台(热度)", 
+      "requiredVersion": "0.0.1", 
+      "version": "1.1.5", 
+      "author": "𝙈𝙖𝙠𝙠𝙖𝙋𝙖𝙠𝙠𝙖", 
+      "url": "https://rex.fwd.ccwu.cc/js/westRex.js" 
+    },
+    { 
+      "id": "danmu_api_Max_binfa_Fast", 
+      "title": "极速弹幕", 
+      "description": "并发搜索多API、自定义名称、繁简互转、数量限制、关键词屏蔽、颜色重写（并发极速版，适合多api（api设置不同平台））", 
+      "requiredVersion": "0.0.2", 
+      "version": "1.3.4", 
+      "author": "𝙈𝙖𝙠𝙠𝙖𝙋𝙖𝙠𝙠𝙖", 
+      "url": "https://rex.fwd.ccwu.cc/js/jsdmRex.js" 
+    }
