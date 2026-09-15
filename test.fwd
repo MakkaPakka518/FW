@@ -102,5 +102,14 @@
       "author": "𝙈𝙖𝙠𝙠𝙖𝙋𝙖𝙠𝙠𝙖",
       "url": "https://rex.fwd.ccwu.cc/js/animeRex.js"
     },
+    {
+      "id": "zhuijurili",
+      "title": "追剧日历",
+      "description": "追剧日历(今/明日播出、周历、各项榜单、今日推荐)",
+      "requiredVersion": "0.0.1",
+      "version": "1.0.4",
+      "author": "logvar",
+      "url": "https://rex.fwd.ccwu.cc/js/zjrllogvar.js"
+    }
   ]
 }
