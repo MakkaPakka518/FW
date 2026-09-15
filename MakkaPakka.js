@@ -62,7 +62,7 @@
       "title": "全球综艺追更热度榜",
       "description": "综艺更新时间表，热度榜",
       "requiredVersion": "0.0.1",
-      "version": "2.0.4",
+      "version": "2.0.4", // 更新版本号
       "author": "𝙈𝙖𝙠𝙠𝙖𝙋𝙖𝙠𝙠𝙖",
       "url": "https://rex.fwd.ccwu.cc/js/qqzyRex.js"
     },
