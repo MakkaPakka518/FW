@@ -103,6 +103,24 @@
       "url": "https://rex.fwd.ccwu.cc/js/anime.js"
     },
     {
+      "id": "makka_global_networks",
+      "title": "全球影视平台ALL IN ONE",
+      "description": "全网最全的频道聚合：覆盖爱优腾、网飞、HBO、韩国tvN及各大卫视",
+      "requiredVersion": "0.0.1",
+      "version": "1.2.4",
+      "author": "𝙈𝙖𝙠𝙠𝙖𝙋𝙖𝙠𝙠𝙖",
+      "url": "https://rex.fwd.ccwu.cc/js/ALLINONE.js"
+    },
+    {
+      "id": "trakt_personal_key",
+      "title": "Trak 追剧日历 免key版",
+      "description": "内置 Key 版：只需填写用户名即可使用。显示追剧日历、待看、收藏及历史记录",
+      "requiredVersion": "0.0.1",
+      "version": "1.1.9",
+      "author": "𝙈𝙖𝙠𝙠𝙖𝙋𝙖𝙠𝙠𝙖",
+      "url": "https://rex.fwd.ccwu.cc/js/trakt.js"
+    },
+    {
       "id": "zhuijurili",
       "title": "追剧日历",
       "description": "追剧日历(今/明日播出、周历、各项榜单、今日推荐)",
