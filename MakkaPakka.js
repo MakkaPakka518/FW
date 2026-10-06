@@ -62,12 +62,12 @@
       "title": "全球综艺追更热度榜",
       "description": "综艺更新时间表，热度榜",
       "requiredVersion": "0.0.1",
-      "version": "2.0.4",
+      "version": "2.0.4", 
       "author": "𝙈𝙖𝙠𝙠𝙖𝙋𝙖𝙠𝙠𝙖",
       "url": "https://rex.fwd.ccwu.cc/js/qqzyRex.js"
     },
     {
-      "id": " global_series_makka_rex",
+      "id": "global_series_makka_rex",
       "title": "全球影视专区",
       "description": "自由切换全球十几个国家与地区，探索纯正的本土电影与剧集",
       "requiredVersion": "0.0.1",
@@ -94,7 +94,7 @@
       "url": "https://rex.fwd.ccwu.cc/js/lmtdjycRex.js"
     },
     {
-      "id": "anime_omni_fix_rex",
+      "id": "anime_omni_fix_pro_rex",
       "title": "二次元全境聚合",
       "description": "一站式聚合多平台动漫榜单。",
       "requiredVersion": "0.0.1",
