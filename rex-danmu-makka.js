@@ -18,15 +18,13 @@
  *
  */
 WidgetMetadata = {
-  id: "rex.danmu",
-  title: "自定义弹幕",
-  version: "2.0.0",
+  id: "rex.danmu.makka",
+  title: "弹幕",
+  version: "1.0.5",
   requiredVersion: "0.0.2",
-  description: "Rex 弹幕模块，支持弹弹play及用户配置的兼容弹幕服务；支持自定义颜色、弹幕屏蔽词、搜索结果屏蔽、繁简转换、数量上限",
-  author: "Rex",
-  site: "https://rexnow.tv",
-  iconurl: "https://assets.rexnow.tv/scripts/rex-icon.png",
-  // Rex generated i18n: begin
+  description: "弹幕模块",
+  author: "𝙈𝙖𝙠𝙠𝙖𝙋𝙖𝙠𝙠𝙖",
+  site: "https://t.me/MakkaPakkaOvO",
   i18n: {
     "en": {
       "自定义弹幕": "Custom Danmu",
