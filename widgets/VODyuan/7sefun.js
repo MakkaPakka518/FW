@@ -1,5 +1,4 @@
-// 七色番 · Rex。站点页面约定参考 Yswag/xptv-extensions 的 js/7sefun.js。
-WidgetMetadata = {
+ WidgetMetadata = {
   id: 'makkapakka.7sefun', title: '七色番', author: 'MakkaPakka518', version: '1.0.1', requiredVersion: '0.0.1',
   description: '番剧分类、搜索、选集与多线路播放，可设置全站前缀反代。', site:'https://www.7sefun.top', detailCacheDuration:0,
   globalParams:[{name:'proxy',title:'反代根地址（可选）',type:'input',value:'',description:'填写后使用「反代根地址/完整目标网址」，不回退直连。反代须中转重定向并支持 Range。'}],
