@@ -1,5 +1,6 @@
  WidgetMetadata = {
-  id: 'makkapakka.7sefun', title: '动漫聚合', author: 'MakkaPakka518', version: '1.0.2', requiredVersion: '0.0.1',
+  id: 'anime.makka01', title: '动漫聚合', author: 'MakkaPakka518', version: '1.0.2', requiredVersion: '0.0.1',
+  iconurl: 'https://raw.githubusercontent.com/MakkaPakka518/Icon/refs/heads/main/Rex_Anime.png',
   description: '动漫聚合：番剧分类、搜索、选集与多线路播放，可设置前置代理。', detailCacheDuration:0,
   globalParams:[{name:'proxy',title:'前置代理根地址（可选）',type:'input',value:'',description:'填写后所有请求使用「代理根地址/完整目标网址」，不回退直连。代理须中转重定向、支持 Range，并重写 HLS 清单。'}],
   modules:[{id:'catalog',title:'动漫片库',functionName:'loadList',cacheDuration:0,params:[
