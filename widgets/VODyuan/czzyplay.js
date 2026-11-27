@@ -1,11 +1,11 @@
 WidgetMetadata = {
-  id: 'czzyplay.makka', title: '厂长资源', author: '𝙈𝙖𝙠𝙠𝙖𝙋𝙖𝙠𝙠𝙖', version: '1.0.1', requiredVersion: '0.0.1',
-  icon: 'https://raw.githubusercontent.com/MakkaPakka518/FW/refs/heads/main/widgets/tubiao/makka.png',
-  description: '厂长资源 MacCMS JSON 采集：分类片库、搜索、详情选集与 HLS 播放，可设置全站前缀反代。',
-  site: 'https://changzhang.tv/', detailCacheDuration: 0,
+  id: 'czzyplay.makka', title: '资源聚合', author: '𝙈𝙖𝙠𝙠𝙖𝙋𝙖𝙠𝙠𝙖', version: '1.0.2', requiredVersion: '0.0.1',
+  icon: 'https://changzhang.tv/assets/brand/changzhang-logo-horizontal-white.webp',
+  description: '播放资源聚合：分类片库、搜索、详情选集与 HLS 播放，可设置前置代理。',
+  detailCacheDuration: 0,
   globalParams: [{name: 'proxy', title: '前置代理根地址（可选）', type: 'input', value: '',
     description: '填写后所有请求使用「代理根地址/完整目标网址」，不回退直连。代理须中转重定向、支持 Range，并重写 HLS 清单。'}],
-  modules: [{id: 'catalog', title: '厂长片库', functionName: 'loadList', cacheDuration: 0, params: [
+  modules: [{id: 'catalog', title: '资源片库', functionName: 'loadList', cacheDuration: 0, params: [
     {name: 'category', title: '分类', type: 'enumeration', value: 'all', enumOptions: [
       {title: '全部', value: 'all'},
       {title: '电影片', value: '1'},
@@ -58,8 +58,8 @@ WidgetMetadata = {
     ]},
     {name: 'page', title: '页码', type: 'page'}
   ]},
-  {id: 'loadResource', title: '厂长播放线路', functionName: 'loadResource', type: 'stream', cacheDuration: 0, params: []}],
-  search: {title: '搜索厂长资源', functionName: 'search', params: [
+  {id: 'loadResource', title: '播放资源线路', functionName: 'loadResource', type: 'stream', cacheDuration: 0, params: []}],
+  search: {title: '搜索资源', functionName: 'search', params: [
     {name: 'keyword', title: '关键词', type: 'input'},
     {name: 'page', title: '页码', type: 'page'}
   ]}
@@ -67,7 +67,7 @@ WidgetMetadata = {
 
 const API = 'https://api.changzhang.tv/api.php/provide/vod/';
 const UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/131.0.0.0 Safari/537.36';
-const PROXY_KEY = 'changzhang.proxy';
+const PROXY_KEY = 'vodrealm.proxy';
 const IMAGE_HEADERS = {'User-Agent': UA, Referer: 'https://changzhang.tv/'};
 const MEDIA_HEADERS = {'User-Agent': UA};
 const DETAIL_TTL = 5 * 60 * 1000, DETAIL_MAX = 30;
@@ -82,7 +82,7 @@ function prefix(value) {
   const p = clean(value).replace(/\/+$/, '');
   if (!p && !clean(value)) return '';
   if (!/^https?:\/\/[a-z\d.-]+(?::\d+)?(?:\/[\w.~-]+)*$/i.test(p) || /(?:^|\/)\.{1,2}(?:\/|$)/.test(p)) {
-    throw Error('[changzhang] 请填写有效的前置代理根地址，不要包含查询参数');
+    throw Error('[资源聚合] 请填写有效的前置代理根地址，不要包含查询参数');
   }
   return p + '/';
 }
@@ -102,12 +102,12 @@ async function storeSet(value) {
 async function setting(params, required) {
   if (params && params.proxy != null) {
     const p = prefix(params.proxy);
-    if (required && !p) throw Error('[changzhang] 该条目使用前置代理，请刷新片库');
+    if (required && !p) throw Error('[资源聚合] 该条目使用前置代理，请刷新片库');
     await storeSet(p);
     return p;
   }
   const p = prefix(await storeGet());
-  if (required && !p) throw Error('[changzhang] 前置代理配置缺失，请刷新片库；已停止请求');
+  if (required && !p) throw Error('[资源聚合] 前置代理配置缺失，请刷新片库；已停止请求');
   return p;
 }
 function target(arg) {
@@ -116,7 +116,7 @@ function target(arg) {
   return {value: undefined, params: {}};
 }
 function via(p, url) {
-  if (!http(url)) throw Error('[changzhang] 无效的资源地址');
+  if (!http(url)) throw Error('[资源聚合] 无效的资源地址');
   return !p || url.startsWith(p) ? url : p + url;
 }
 function image(value, p) {
@@ -129,13 +129,13 @@ function pageOf(value) { return positive(value) ? Number(value) : 1; }
 function yearOf(value) {
   const text = clean(value);
   if (!text) return '';
-  if (!/^(?:19|20)\d{2}(?:-(?:19|20)\d{2})?$/.test(text)) throw Error('[changzhang] 年份请填 2026 或 2020-2026');
+  if (!/^(?:19|20)\d{2}(?:-(?:19|20)\d{2})?$/.test(text)) throw Error('[资源聚合] 年份请填 2026 或 2020-2026');
   const [start, end = start] = text.split('-');
-  if (Number(start) > Number(end)) throw Error('[changzhang] 年份起始不能晚于结束');
+  if (Number(start) > Number(end)) throw Error('[资源聚合] 年份起始不能晚于结束');
   return text;
 }
 function owned(raw) {
-  const match = /^cz:(detail|play):([1-9]\d*)(?::([1-9]\d*))?(?::(via))?$/.exec(String(raw || ''));
+  const match = /^vod:(detail|play):([1-9]\d*)(?::([1-9]\d*))?(?::(via))?$/.exec(String(raw || ''));
   if (!match) return null;
   return {kind: match[1], id: match[2], episode: match[3] ? Number(match[3]) : 0, via: !!match[4]};
 }
@@ -149,18 +149,18 @@ async function api(fields, p) {
     response = await Widget.http.get(via(p, endpoint(fields)), {allow_redirects: !p,
       headers: {'User-Agent': UA, Referer: 'https://changzhang.tv/'}});
   } catch (error) {
-    throw Error('[changzhang] 采集接口请求失败：' + (clean(error && error.message) || '网络错误'));
+    throw Error('[资源聚合] 采集接口请求失败：' + (clean(error && error.message) || '网络错误'));
   }
   if (p && http(response && response.url) && !response.url.startsWith(p)) {
-    throw Error('[changzhang] 采集接口请求离开了前置代理');
+    throw Error('[资源聚合] 采集接口请求离开了前置代理');
   }
   const status = Number(response && (response.statusCode || response.status || 200));
-  if (status < 200 || status >= 300) throw Error('[changzhang] 采集接口返回 HTTP ' + status);
+  if (status < 200 || status >= 300) throw Error('[资源聚合] 采集接口返回 HTTP ' + status);
   let data = response && response.data;
   if (typeof data === 'string') {
-    try { data = JSON.parse(data); } catch (error) { throw Error('[changzhang] 采集接口未返回 JSON'); }
+    try { data = JSON.parse(data); } catch (error) { throw Error('[资源聚合] 采集接口未返回 JSON'); }
   }
-  if (!data || Number(data.code) !== 1 || !Array.isArray(data.list)) throw Error('[changzhang] 采集接口返回了无效数据');
+  if (!data || Number(data.code) !== 1 || !Array.isArray(data.list)) throw Error('[资源聚合] 采集接口返回了无效数据');
   return data;
 }
 function episodeNumber(label, index) {
@@ -177,11 +177,11 @@ function mediaTypeOf(vod, episodes) {
 function itemOf(vod, episodes, p) {
   const id = String(vod.vod_id || '');
   if (!positive(id)) return null;
-  const link = 'cz:detail:' + id + (p ? ':via' : '');
+  const link = 'vod:detail:' + id + (p ? ':via' : '');
   const mediaType = mediaTypeOf(vod, episodes);
   const score = Number(vod.vod_score), rating = Number.isFinite(score) && score > 0 ? score : undefined;
   return {
-    id: link, link, type: 'url', title: clean(vod.vod_name) || ('厂长影片 ' + id),
+    id: link, link, type: 'url', title: clean(vod.vod_name) || ('资源影片 ' + id),
     posterPath: image(vod.vod_pic, p), headers: IMAGE_HEADERS, mediaType,
     description: clean(vod.vod_content || vod.vod_blurb),
     ...(rating ? {rating} : {}), genreTitle: clean(vod.type_name),
@@ -227,7 +227,7 @@ function buildEpisodes(groups) {
 async function fetchSeries(id, p) {
   const data = await api({ac: 'videolist', ids: String(id)}, p);
   const vod = data.list.find(item => String(item.vod_id) === String(id));
-  if (!vod) throw Error('[changzhang] 没有找到影片 ' + id);
+  if (!vod) throw Error('[资源聚合] 没有找到影片 ' + id);
   const episodes = buildEpisodes(parseGroups(vod));
   return {vod, episodes};
 }
@@ -240,7 +240,7 @@ async function series(id, p) {
   try { return await entry.promise; }
   catch (error) { detailCache.delete(cacheKey); throw error; }
 }
-// 厂长解析接口 https://svip.czzyplay.com/?url= 对 share 链接的映射就是 /play/<id>/<ep>/index.m3u8。
+// 播放页 share 链接统一映射为 /play/<id>/<ep>/index.m3u8。
 function shareToPlay(url) {
   const text = String(url || '');
   const share = /^https:\/\/svip\.czzyplay\.com\/share\/([1-9]\d*)\/([A-Za-z0-9_-]{1,64})\/?(?:[?#][^\s\\]*)?$/.exec(text);
@@ -254,14 +254,14 @@ async function getText(p, url, referer) {
     response = await Widget.http.get(via(p, url), {allow_redirects: !p,
       headers: {'User-Agent': UA, Referer: referer || 'https://changzhang.tv/'}});
   } catch (error) {
-    throw Error('[changzhang] 请求失败：' + (clean(error && error.message) || '网络错误'));
+    throw Error('[资源聚合] 请求失败：' + (clean(error && error.message) || '网络错误'));
   }
   if (p && http(response && response.url) && !response.url.startsWith(p)) {
-    throw Error('[changzhang] 请求离开了前置代理');
+    throw Error('[资源聚合] 请求离开了前置代理');
   }
   const status = Number(response && (response.statusCode || response.status || 200));
-  if (status < 200 || status >= 300) throw Error('[changzhang] 前置代理返回 HTTP ' + status);
-  if (typeof (response && response.data) !== 'string') throw Error('[changzhang] 前置代理未返回文本');
+  if (status < 200 || status >= 300) throw Error('[资源聚合] 前置代理返回 HTTP ' + status);
+  if (typeof (response && response.data) !== 'string') throw Error('[资源聚合] 前置代理未返回文本');
   return response.data;
 }
 async function available(url, p) {
@@ -274,10 +274,10 @@ async function available(url, p) {
 }
 // 播放器仍会自行请求子清单和分片；仅代理入口不足以阻止这些请求直连。
 function childURL(base, ref) {
-  if (!ref || /[\s\\{}]/.test(ref)) throw Error('[changzhang] 不支持动态或非法 HLS 引用');
+  if (!ref || /[\s\\{}]/.test(ref)) throw Error('[资源聚合] 不支持动态或非法 HLS 引用');
   if (http(ref)) return ref;
   if (ref.startsWith('//')) return base.split(':')[0] + ':' + ref;
-  if (/^[\w+.-]+:/.test(ref)) throw Error('[changzhang] 不支持该 HLS URI');
+  if (/^[\w+.-]+:/.test(ref)) throw Error('[资源聚合] 不支持该 HLS URI');
   const origin = base.match(/^https?:\/\/[^/]+/i)[0], path = ref.split(/[?#]/)[0];
   if (!path) return base.split(/[?#]/)[0] + ref;
   const parts = path.startsWith('/') ? [''] : base.slice(origin.length).split(/[?#]/)[0].split('/').slice(0, -1);
@@ -290,16 +290,16 @@ function childURL(base, ref) {
 }
 async function checkHLS(proxy, entry, seen = new Set()) {
   if (seen.has(entry)) return;
-  if (seen.size >= 32) throw Error('[changzhang] HLS 子清单过多');
+  if (seen.size >= 32) throw Error('[资源聚合] HLS 子清单过多');
   seen.add(entry);
   const text = await getText(proxy, entry);
-  if (!/^\s*#EXTM3U\b/.test(text)) throw Error('[changzhang] 前置代理未返回 HLS 清单');
+  if (!/^\s*#EXTM3U\b/.test(text)) throw Error('[资源聚合] 前置代理未返回 HLS 清单');
   let nextList = false, master = false, end = false;
   const children = new Set();
   function check(ref, list) {
     const resolved = childURL(entry, ref);
     if (!resolved.startsWith(proxy) || !http(resolved.slice(proxy.length))) {
-      throw Error('[changzhang] HLS 含未中转的地址：请启用代理的播放列表重写');
+      throw Error('[资源聚合] HLS 含未中转的地址：请启用代理的播放列表重写');
     }
     if (list) children.add(resolved);
   }
@@ -316,17 +316,17 @@ async function checkHLS(proxy, entry, seen = new Set()) {
     if (line.startsWith('#EXT-X-')) {
       const tag = line.split(':')[0].slice(7);
       if (!/^(?:VERSION|INDEPENDENT-SEGMENTS|START|STREAM-INF|MEDIA|I-FRAME-STREAM-INF|IMAGE-STREAM-INF|SESSION-KEY|KEY|MAP|TARGETDURATION|MEDIA-SEQUENCE|DISCONTINUITY-SEQUENCE|DISCONTINUITY|ENDLIST|PLAYLIST-TYPE|I-FRAMES-ONLY|PROGRAM-DATE-TIME|GAP|BITRATE|BYTERANGE)$/.test(tag)) {
-        throw Error('[changzhang] 代理模式不接受未验证的 HLS 标签：' + tag);
+        throw Error('[资源聚合] 代理模式不接受未验证的 HLS 标签：' + tag);
       }
       const uris = /(?:[:,])\s*URI\s*=\s*"([^"]+)"/gi;
       let match;
       while ((match = uris.exec(line))) check(match[1], /^(?:MEDIA|I-FRAME-STREAM-INF|IMAGE-STREAM-INF)$/.test(tag));
-      if (/[:,]\s*[\w-]*URI\s*=/i.test(line.replace(uris, ''))) throw Error('[changzhang] 不支持该 HLS URI 格式');
+      if (/[:,]\s*[\w-]*URI\s*=/i.test(line.replace(uris, ''))) throw Error('[资源聚合] 不支持该 HLS URI 格式');
     } else if (/^#EXT/i.test(line) && !/^#(?:EXTM3U$|EXTINF:)/.test(line)) {
-      throw Error('[changzhang] 不支持该 HLS 扩展');
+      throw Error('[资源聚合] 不支持该 HLS 扩展');
     }
   }
-  if (!master && !end) throw Error('[changzhang] 代理模式下仅支持可预检的点播清单');
+  if (!master && !end) throw Error('[资源聚合] 代理模式下仅支持可预检的点播清单');
   for (const sub of children) await checkHLS(proxy, sub, seen);
 }
 async function loadList(params = {}) {
@@ -337,7 +337,7 @@ async function loadList(params = {}) {
       isend: ['0', '1'].includes(String(params.isend)) ? String(params.isend) : '', pg: pageOf(params.page), pagesize: 20}, p);
     return data.list.map(vod => itemOf(vod, null, p)).filter(Boolean);
   } catch (error) {
-    throw Error(clean(error && error.message) || '[changzhang] 分类加载失败');
+    throw Error(clean(error && error.message) || '[资源聚合] 分类加载失败');
   }
 }
 async function search(params = {}) {
@@ -348,7 +348,7 @@ async function search(params = {}) {
     const data = await api({ac: 'videolist', wd: keyword, pg: pageOf(params.page), pagesize: 20}, p);
     return data.list.map(vod => itemOf(vod, null, p)).filter(Boolean);
   } catch (error) {
-    throw Error(clean(error && error.message) || '[changzhang] 搜索失败');
+    throw Error(clean(error && error.message) || '[资源聚合] 搜索失败');
   }
 }
 async function loadDetail(raw) {
@@ -361,14 +361,14 @@ async function loadDetail(raw) {
     const item = itemOf(result.vod, result.episodes, p);
     if (!item) return null;
     item.episodeItems = result.episodes.map((episode, index) => ({
-      id: 'cz:play:' + key.id + ':' + (index + 1) + (p ? ':via' : ''),
-      link: 'cz:play:' + key.id + ':' + (index + 1) + (p ? ':via' : ''), type: 'url',
+      id: 'vod:play:' + key.id + ':' + (index + 1) + (p ? ':via' : ''),
+      link: 'vod:play:' + key.id + ':' + (index + 1) + (p ? ':via' : ''), type: 'url',
       title: episode.label, posterPath: item.posterPath, headers: IMAGE_HEADERS, mediaType: item.mediaType,
       episode: episode.episode
     }));
     return item;
   } catch (error) {
-    throw Error(clean(error && error.message) || '[changzhang] 详情加载失败');
+    throw Error(clean(error && error.message) || '[资源聚合] 详情加载失败');
   }
 }
 async function loadResource(arg = {}) {
@@ -397,11 +397,11 @@ async function loadResource(arg = {}) {
         const url = via(p, source.url);
         if (p) await checkHLS(p, url);
         return {
-          name: '厂长 HLS', description: episode.label + ' · HLS', url,
+          name: '播放资源', description: episode.label + ' · HLS', url,
           customHeaders: MEDIA_HEADERS, headers: MEDIA_HEADERS, playerType: 'app'
         };
       } catch (error) {
-        return {error: clean(error && error.message) || '[changzhang] 播放线路解析失败'};
+        return {error: clean(error && error.message) || '[资源聚合] 播放线路解析失败'};
       }
     }));
     const streams = results.filter(item => item && item.url);
@@ -411,6 +411,6 @@ async function loadResource(arg = {}) {
     }
     return streams;
   } catch (error) {
-    throw Error(clean(error && error.message) || '[changzhang] 播放线路解析失败');
+    throw Error(clean(error && error.message) || '[资源聚合] 播放线路解析失败');
   }
 }
