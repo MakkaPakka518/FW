@@ -1,5 +1,6 @@
 WidgetMetadata = {
   id: 'czzyplay.makka', title: '厂长资源', author: '𝙈𝙖𝙠𝙠𝙖𝙋𝙖𝙠𝙠𝙖', version: '1.0.1', requiredVersion: '0.0.1',
+  icon: 'https://raw.githubusercontent.com/MakkaPakka518/FW/refs/heads/main/widgets/tubiao/makka.png',
   description: '厂长资源 MacCMS JSON 采集：分类片库、搜索、详情选集与 HLS 播放，可设置全站前缀反代。',
   site: 'https://changzhang.tv/', detailCacheDuration: 0,
   globalParams: [{name: 'proxy', title: '前置代理根地址（可选）', type: 'input', value: '',
