@@ -1,5 +1,5 @@
 WidgetMetadata = {
-  id: 'czzyplay.makka', title: '资源聚合', author: '𝙈𝙖𝙠𝙠𝙖𝙋𝙖𝙠𝙠𝙖', version: '1.0.2', requiredVersion: '0.0.1',
+  id: 'czzyplay.makka', title: '资源聚合', author: '𝙈𝙖𝙠𝙠𝙖𝙋𝙖𝙠𝙠𝙖', version: '1.0.3', requiredVersion: '0.0.1',
   iconurl: 'https://changzhang.tv/assets/brand/changzhang-logo-horizontal-white.webp',
   description: '播放资源聚合：分类片库、搜索、详情选集与 HLS 播放，可设置前置代理。',
   site: 'https://rex.778477.xyz',detailCacheDuration: 0,
